@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Optimi</title>
+    <meta charset="utf-8">
+
+    
+    {% block styles %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    {% endblock %}
+
+  </head>
+
+
+  <body>
+    <nav class="navbar">
+        <a class="navbar__logo" href="{{url_for('home.index')}}">ZATH</a>
+
+        <div class="navbar__menu">
+            <ul class="navbar__box">
+                <li class="navbar__item">
+                <a class="navbar__link" href="{{url_for('home.index')}}">Home </a>
+                </li>
+
+                {% if not current_user.is_authenticated %}
+                  <li class="navbar__item">
+                    <a class="navbar__link" href="{{url_for('auth.register')}}">Registrar</a>
+                  </li>
+                {% endif %}
+
+                <li class="navbar__item">
+                  {% if current_user.is_authenticated %}
+                    <a class="navbar__link" href="{{url_for('auth.logout')}}">Logout</a>
+                  {% else %}
+                    <a class="navbar__link" href="{{url_for('auth.login')}}">Login</a>
+                  {% endif %}
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+ 
+    {% block content %}
+    <div>
+        <div class="container py-5">
+
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block footer %}
+        <footer class="footer text-center">
+            <h4 class="jump-30"> Todos os direitos reservados</h4>
+        </footer>
+    {% endblock %}
+    {% block scripts %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      <script>
+        var message = "{{ get_flashed_messages()[0]}}"
+        var color = "{{ get_flashed_messages()[1]}}"
+
+        localStorage.setItem("message", message);
+        localStorage.setItem("color", color);
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        $(document).ready(function(){
+            if(localStorage.getItem("message")){
+                toastr["" + localStorage.getItem('color')](localStorage.getItem('message'))
+            }
+        })
+    </script>
+    {% endblock  %}
+
+  </body>
+</html>
+
+
+
+   
+
+
+

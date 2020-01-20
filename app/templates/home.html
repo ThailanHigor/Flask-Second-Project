@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div class="content">   
+        {% if current_user.is_authenticated %}
+            <div>   
+                <p>Seja bem-vindo {{ current_user.name }}</p>
+                <a href="{{url_for('auth.logout')}}">Sair</a>
+            </div>
+        {% else %}
+            <div>   
+                <p>Você precisa logar</p>
+                <a href="{{url_for('auth.login')}}">Entrar</a>
+            </div>                
+        {% endif %}
+        
+
+
+        {% if todos %}
+            <div>
+                <form method="POST">
+                    {{ form.csrf_token }}
+                    {{form.title}}
+                    {{form.submit}}
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <th>Nome</th>
+                    <th>Ação</th>
+                </thead>
+
+                <tbody>
+                    {% for todo in todos %}
+                        <tr>
+                            <td>{{todo.title}}</td>
+                            <td> <a href="{{url_for('home.delete_task', id = todo.id)}}" style="color:red;">Remover</a></td>
+                        </tr>   
+                    {% endfor %}
+                </tbody>
+            
+            </table>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super()}}
+{% endblock %}

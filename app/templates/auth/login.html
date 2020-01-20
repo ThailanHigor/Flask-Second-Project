@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div>
+        <h2>Novo usuário</h2>
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div>
+                <label>E-mail</label>
+                {{form.email}}
+            </div>
+            <div>
+                <label>Password</label>
+                {{form.password}}
+            </div>
+            <div>
+                {{form.submit}}
+            </div> 
+        </form>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super()}}
+{% endblock %}
